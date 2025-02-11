@@ -70,7 +70,7 @@ typedef struct
  */
 char *es_version(void);
 
-/**
+/**获取字符串首地址
  * Get the base address for the string's buffer.
  * Proper use for library users is to gain read-only access to the buffer,
  * so that it may be used inside an i/o request or similar things. Note that
@@ -88,7 +88,7 @@ es_getBufAddr(es_str_t *s)
 	return ((unsigned char*) s) + sizeof(es_str_t);
 }
 
-/**
+/**获取字符串长度
  * Return length of provided string object.
  */
 static inline es_size_t es_strlen(es_str_t *str)
@@ -96,7 +96,7 @@ static inline es_size_t es_strlen(es_str_t *str)
 	return(str->lenStr);
 }
 
-/**
+/**创建一个空的字符数组
  * Create a new string object.
  * @param[in] lenhint expected max length of string. Do \b not use too large value.
  * @returns pointer to new object or NULL on error
@@ -147,7 +147,7 @@ es_str_t* es_newStrFromSubStr(es_str_t *str, es_size_t start, es_size_t len);
 es_str_t* es_newStrFromBuf(char *buf, es_size_t len);
 
 
-/**
+/** 数字转化为字符串
  * Create a new string object from a number.
  *
  * @param[in] num number (a long long value to cover all)
@@ -205,11 +205,12 @@ es_strdup(es_str_t *str)
 int es_strbufcmp(es_str_t *s, const unsigned char *b, es_size_t len);
 
 /** Case-insensitive version of es_strcasebufcmp.
+  * 不区分大小写
  */
 int es_strcasebufcmp(es_str_t *s, const unsigned char *b, es_size_t len);
 
 
-/**
+/** 字符串大写转化为小写 Z->z
  * Convert a string to lower case. Once converted, this can not be
  * undone. If the caller needs the original string, it must create
  * a copy before calling tolower.
@@ -260,7 +261,7 @@ int es_strncmp(es_str_t *s1, es_str_t *s2, es_size_t len);
 int es_strncasecmp(es_str_t *s1, es_str_t *s2, es_size_t len);
 
 
-/**
+/**查找
  * Check if the second string is contained within the first string.
  *
  * @param[in] s1 frist string
@@ -298,7 +299,7 @@ int es_strCaseContains(es_str_t *s1, es_str_t *s2);
  */
 int es_extendBuf(es_str_t **ps, es_size_t minNeeded);
 
-/**
+/**追加
  * Append a character to the current string object.
  * Note that the pointer to the string object may change. This
  * is because we may need to aquire more memory.
@@ -340,7 +341,7 @@ es_addStr(es_str_t **ps1, es_str_t *s2)
 	return es_addBuf(ps1, (char*) es_getBufAddr(s2), s2->lenStr);
 }
 
-/**
+/**转化为cstr,结尾使用\0
  * Obtain a traditional C-String from a string object.
  * The string object is not modified. Note that the C string is not
  * necessarily exactly the same string: C Strings can not contain NUL
